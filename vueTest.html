@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+<head>
+    <title>vue的测试</title>
+<link rel="stylesheet" type="text/css" media="all" href="css/reset.css" />
+<script src="./util/time.js"></script>
+<script src="node_modules/vue/dist/vue.js"></script>
+<style>
+    .parent{
+        border: 1px solid green;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+
+<body>
+    <div id="app"> 
+        <div class="parent">
+            <p>
+                v-for测试:
+            </p>
+            <ul>
+                <li v-for="item in fcbooks" v-bind:key="item.name">{{item.name}}</li>
+            </ul>
+            <button v-on:click="addItem">给数组的头加元素</button>
+        </div>
+        <div class="parent">
+            <div v-once>{{title}}</div>
+            <input type="text" v-model.number="title" />{{title}}
+            <div v-html="htmlStr"></div>
+            <p v-show="isShow">我是p标签</p>
+            <div  v-on:click="parentClick">
+                <p v-on:click.stop="hideP">隐藏p标签</p>
+            </div>
+        </div>
+        <div class="parent">
+            <p>
+                苹果手机：<input type="text" v-model="price1">
+                数量：<input type="text" v-model="number1">
+            </p>
+            <p>
+                华为手机：<input type="text" v-model="price2">
+                数量：<input type="text" v-model="number2">
+            </p>
+            <p>
+                魅族手机：<input type="text" v-model="price3">
+                数量：<input type="text" v-model="number3">
+            </p>
+            <p>总价{{totalPrice}}</p>
+        </div>
+        <div class="parent">
+            <p>
+                <p>v-if的测试</p>
+                status的值<input type="text" v-model="status"/>
+                <p v-if="status === 1">当status为1时显示该行</p>
+                <p v-else-if="status === 2">当status为2时显示该行</p>
+                <p v-else>当status为3时显示该行</p>
+            </p>
+        </div>
+        <div class="parent">
+            <p>表单处理</p>
+            输入框的blur事件和change事件<input v-model="title" @change="changeEvent" @input="blurEvent"/>
+            <input type="radio" name="fruit" value="1" v-model="fruit"><label for="">苹果</label>
+            <input type="radio" name="fruit" value="2" v-model="fruit"><label for="">梨</label>
+            选中的值：{{fruit}}
+            <input type="checkbox" v-model="love" :true-value="1" :false-value="2">
+            是否勾上：{{love}}
+            <div>
+                <p>多选</p>
+                <select v-model="selectedVal" multiple>
+                    <option value="">请选择</option>
+                    <option value="1">A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                </select>
+                选中值为{{selectedVal}}
+            </div>
+        </div>
+        <div class="parent">
+            <p>全局组件</p>
+            <global-component :message="msg" v-on:my-event="childToParent"></global-component>
+            <p>局部组件</p>
+            <partial-component></partial-component>
+        </div>
+        <div class="parent">
+            <p>动态组件</p>
+            <component :is="currentComponent"></component>
+            <button v-on:click="changeComponent('A')">切换到A</button>
+            <button v-on:click="changeComponent('B')">切换到B</button>
+            <button v-on:click="changeComponent('C')">切换到C</button>
+        </div>
+        <div class="parent">
+            <p>异步组件</p>
+            <async-component></async-component>
+        </div>
+        <div class="parent">
+            <p>通过渲染函数来渲染组件</p>
+            <heading-component :level='2'>Hello</heading-component>
+        </div>
+        <div class="parent">
+            <p>函数式组件</p>
+            <functional-component :msg="msg">child1<span>child2</span></functional-component>
+        </div>
+        <div class="parent">
+            <p>Vue过渡动画</p>    
+            <button v-on:click="show = !show">点我</button>
+            <transition name="fade">
+                <p v-show="show" v-bind:style="styleobj">动画实例</p>
+            </transition>           
+        </div>
+        <div class="parent">
+            <p>Vue自定义组件：对时间的转换，比如实时将时间转换为几秒钟前或者几分钟前</p>
+            <div v-time="timeNow"></div> 
+        </div>
+    </div>
+    <script>
+        var mixin = {
+                data: {
+                    mField: 'hello',
+                    mField2: 'hello2',
+                }
+            };
+        Vue.directive('time', {
+                bind: function (el, binding) {
+                    //准备工作，例如，添加事件处理器或只需要运行一次高耗时工作
+                    el.innerHTML = Time.getFormatTime(binding.value);
+                    el.timeOut = setInterval(function(){
+                        el.innerHTML = Time.getFormatTime(binding.value);
+                    },1000);
+                },
+                update: function (newValue, oldValue) {
+                    //值更新时的工作，也会以初始值为参数调用一次
+                    console.log('newValue:' + newValue, 'oldValue:' + oldValue);
+                },
+                unbind: function (el) {
+                    //清理工作，例如，删除bind()添加的事件监听器
+                    clearInterval(el.timeOut);
+                    delete el.timeOut;
+                }
+            });
+        Vue.component('global-component',{
+            template:'<div><h1>我是全局组件</h1><p>收到消息：{{message}}</p><button v-on:click="passMessageToParent">子组件传值给父组件</button></div>',
+            props:['message'],
+            methods:{
+                passMessageToParent(event){
+                    this.$emit('my-event',2);
+                }
+            }
+
+        });
+        Vue.component('async-component',(resolve,reject)=>{
+            setTimeout(() => {
+                resolve({
+                    template:'<div>我是异步渲染的</div>'
+                })
+            }, 2000);
+        });
+        Vue.component('heading-component',{
+            render:function (createElement){
+                return createElement(
+                    'h'+this.level,
+                    this.$slots.default
+                )
+            },
+            props:{
+                level:{
+                    type:Number,
+                    required:true
+                }
+            }
+        });
+        Vue.component('functional-component',{
+            functional:true,
+            render: function (createElement, context) {
+                return createElement('button', context.data, context.children);
+            }
+        });
+        const htmlStr = '<div style="color:red;">用户</div>';
+        let app = new Vue({
+            el:'#app',
+            mixins:[mixin],
+            data:{
+                fcbooks:[
+                    {name:'test1'},
+                    {name:'test11'},
+                    {name:'test111'}
+                ],
+                title:'fiona',
+                htmlStr: '<div style="color:red;">用户</div>',
+                isShow:true,
+                price1:0,
+                price2:0,
+                price3:0,
+                number1:0,
+                number2:0,
+                number3:0,
+                status:1,
+                fruit:1,
+                love:'',
+                selectedVal:[],
+                msg:'我是要传给子组件的值',
+                currentComponent:'comA',
+                show:true,
+                styleobj:{
+                    fontSize:'30px',
+                    color:'red'
+                },
+                timeNow:new Date().getTime(),
+            },
+            methods:{
+                hideP(){
+                    this.isShow = !this.isShow;
+                },
+                parentClick(){
+                    alert('1');
+                },
+                addItem(){
+                    this.fcbooks.unshift({name:'test0'});
+                },
+                changeEvent(event){
+                    console.log('changing....',event);
+                },
+                blurEvent(event){
+                    console.log('bluring....',event);
+                },
+                childToParent(data){
+                    console.log('子组件向父组件传递参数。。。。。子组件传给父组件的参数为：'+data);
+                },
+                changeComponent(type){
+                    this.currentComponent = 'com'+type;
+                }
+            },
+            computed:{
+                totalPrice: function () {
+                    //解构操作
+                    let { price1, price2, price3, number1, number2, number3 } = this;
+                    return price1 * number1 + price2 * number2 + price3 * number3;
+                }
+            },
+            watch:{
+                price1:function(newval,oldval){
+                    console.log('watching......',newval,oldval);
+                },
+            },
+            components:{
+                'partial-component':{
+                    template:'<h2>我是局部组件</h2>',
+                },
+                comA:{
+                    template:'<p>我是组件A</p>'
+                },
+                comB:{
+                    template:'<p>我是组件B</p>'
+                },
+                comC:{
+                    template:'<p>我是组件C</p>'
+                },
+            },
+            created: function(){
+                console.log(this.$data);
+            }      
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+1、调用Vue.extend(),创建名为myComp的组件全局注册
+Vue.component('my-comp',myComp);
+2、template及script标签构建的组件全局注册
+Vue.component('my-comp',{
+    template:'#myComp'
+});
