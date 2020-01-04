@@ -1,29 +1,29 @@
 <template>
   <div id="app">
-    <book-input></book-input>
-    <book-list></book-list>
-    <p>书的总数：{{totalCount}}</p>
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      <!-- <router-link to="/about">About</router-link> -->
+      <router-link :to="{name:'about',params:{user:'xiaoming'}}">about</router-link>
+    </div>
+    <button @click="clickBtn">点我</button>
+    <router-view/>
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
-import bookInput from "./components/book-input.vue";
-import bookList from "./components/book-list.vue";
 export default {
-  name: "app",
-  components: {
-    bookInput,
-    bookList
-  },
-  data:{
-    totalCount:0,
-  },
-  computed:{
-    ...mapGetters({totalCount:'totalCount'})
+  methods:{
+    clickBtn(){
+      this.$router.push('/about');
+      setTimeout(()=>{
+        this.$router.go(-1);
+      },1000);
+      setTimeout(()=>{
+        this.$router.replace('/404');
+      },2000);
+    }
   }
-};
+}
 </script>
-
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -40,6 +40,7 @@ export default {
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  margin-right:10px;
 }
 
 #nav a.router-link-exact-active {

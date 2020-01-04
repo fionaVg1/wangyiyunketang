@@ -14,10 +14,7 @@ export default {
   components: {
     bookInput,
     bookList
-  },
-  data:{
-    totalCount:0,
-  },
+  },  
   computed:{
     ...mapGetters({totalCount:'totalCount'})
   }
