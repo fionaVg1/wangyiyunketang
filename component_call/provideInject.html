@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>provide--inject组件通信方式</title>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>
+            {{projectName}}
+            <br/>
+            {{appName}}
+            <br/>
+            {{timeFlag}}
+            <br/>
+        </h1>
+        <Parent/>
+    </div>
+    <script>
+        const Child = {
+            inject:['appName','projectName'],
+            template:`<div>
+                {{projectName}}
+                <br/>
+                {{appName}}此时Parent修改了appName
+                </div>`
+        };
+        const Parent = {
+            inject:['appName','timeFlag','projectName'],
+            provide(){
+                return{
+                    appName:this.appName + '父级接收上级传来数据处理后的appName',
+                }
+            },
+            components:{
+                Child,
+            },
+            template:`<div>                
+                {{projectName}}
+                <br/>
+                {{appName}}
+                <br/>
+                {{timeFlag}}
+                <br/>
+                <Child/>
+                </div>`
+        }
+        const projectName = '跨级组件通信';
+        let vm = new Vue({
+            el:'#app',
+            components:{
+                Parent
+            },
+            provide(){
+                return{
+                    projectName:this.projectName,
+                    appName:this.appName,
+                    timeFlag:this.timeFlag
+                }
+            },
+            data:{
+                
+                    projectName,
+                    appName:'这是app名称',
+                    now:Date.now()
+                
+            },
+            computed:{
+                timeFlag(){
+                    return this.now;
+                }
+            },
+            created(){
+                setInterval(()=>{
+                    this.now = Date.now();
+                },1000)
+            }
+        });
+    </script>
+</body>
+</html>
