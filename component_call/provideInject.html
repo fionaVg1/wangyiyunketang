@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="app">
+        <p style="color:red;">下面是爷爷组件的内容：</p>
         <h1>
             {{projectName}}
             <br/>
@@ -17,16 +18,18 @@
             {{timeFlag}}
             <br/>
         </h1>
+        <p style="color:red;">下面是父组件内容：</p>
         <Parent/>
     </div>
     <script>
         const Child = {
             inject:['appName','projectName'],
-            template:`<div>
+            template:`<div><p style="color:red;">下面是孩子组件内容</p>
+            <div>
                 {{projectName}}
                 <br/>
                 {{appName}}此时Parent修改了appName
-                </div>`
+                </div></div>`
         };
         const Parent = {
             inject:['appName','timeFlag','projectName'],
