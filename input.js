@@ -38,4 +38,4 @@ class InputNumber extends Component {
 }
 
 //抛出类,这是es6 语法 必须这么写
-export default App;
+export default InputNumber;
