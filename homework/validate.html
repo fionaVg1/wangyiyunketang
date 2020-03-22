@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+</head>
+<body>
+    <form>              
+        <div class="form-group">
+            <label for="idCard">身份证号码</label>
+            <input type="text" class="form-control" id="idCard" placeholder="Enter ID Card" data-dv-idcard=true data-dv-email-error="请输入合法的邮箱信息">
+        </div>
+        <div class="form-group">
+            <label for="tel">手机号码</label>
+            <input type="text" class="form-control" id="tel" placeholder="Enter Tel" data-dv-tel=true>
+        </div>
+        <div class="form-group">
+            <label for="email">电子邮箱</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" data-dv-email=true>           
+        </div> 
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <script src="../jquery-3.4.0.js"></script>
+    <script src="jquery.validate.js"></script>
+    <script>
+        $('form').validate({        
+        });
+        /**弹性扩展**/
+        $.fn.validate.expand({
+            password:function(){
+                var regex = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/;
+                var val = $(this).val();
+                return regex.test(val);
+            }
+        });
+    </script>
+</body>
+</html>
