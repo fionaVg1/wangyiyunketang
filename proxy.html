@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>proxy模拟实现vue的双向数据绑定</title>
+</head>
+<body>
+    <div id="app">
+        <span v-text="myText"></span>
+        <input type="text" v-model="myText"/>
+    </div>
+    <script>
+        class Vue{
+            constructor(options){
+                this.el = document.querySelector(options.el);
+                this.data = options.data;
+                this.deps = {};
+                this.Observer(this.data);
+                this.Compiler(this.el);
+            }
+            Observer(data){
+                for(let key in data){
+                    this.deps[key] = [];
+                }
+                var deps = this.deps;
+                var proxy = new Proxy(data,{
+                    get:function(target,key,receiver){
+                        return Reflect.get(target,key,receiver);
+                    },
+                    set:function(target,key,newVal,receiver){
+                        var oldVal = data[key];
+                        if(oldVal != newVal){
+                            let watchers = deps[key];
+                            watchers.forEach(function(watcher){
+                                watcher.update();
+                            });
+                        }
+                        return Reflect.set(target,key,newVal,receiver);
+                    }
+                })
+                this.newData = proxy;
+            }
+            Compiler(el){
+                var childs = el.children;
+                for(let i=0;i<childs.length;i++){
+                    var node = childs[i];
+                    if(node.children.length>0){
+                        this.Compiler(node);
+                    }
+                    if(node.hasAttribute('v-text')){
+                        var attrVal = node.getAttribute('v-text');
+                        var watcher = new Watcher(node,this,attrVal,'innerHTML')
+                        this.deps[attrVal].push(watcher);
+                    }
+                    if(node.hasAttribute('v-model')){
+                        var attrVal = node.getAttribute('v-model');
+                        var watcher = new Watcher(node,this,attrVal,'value');
+                        this.deps[attrVal].push(watcher);
+                        node.addEventListener('input', () => {
+                            this.newData[attrVal] = node.value;
+                        });
+
+                    }
+                }
+            }          
+        }
+         //订阅者,自己更新视图
+         class Watcher {
+            constructor(el, vm, attVal, attr) {
+                this.el = el;
+                this.vm = vm;
+                this.attVal = attVal;
+                this.attr = attr;
+                this.update();
+            }
+            update() {
+                this.el[this.attr] = this.vm.data[this.attVal];
+            }
+        }
+
+        new Vue({
+            el:'#app',
+            data:{
+                myText:'这个是输入框显示的内容'
+            }
+        })
+    </script>
+</body>
+</html>
