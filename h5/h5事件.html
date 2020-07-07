@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H5事件</title>
+</head>
+<body>
+    <h1>移动端事件</h1>
+    <button id="touchstart" class="touchstart">
+        touchstart
+    </button>
+    <script src="h5.js"></script>
+    <script>
+        var myMobile = myMobile('#touchstart');
+        myMobile.tap(function(){
+            console.log('单击事件触发');
+        });
+        myMobile.longTap(function(){
+            console.log('长按事件触发')
+        });
+        myMobile.sideLeft(function(){
+            console.log('左滑动事件触发')
+        })
+    </script>
+</body>
+</html>
+
+
