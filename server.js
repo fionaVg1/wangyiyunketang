@@ -3,13 +3,23 @@ var http = require('http');
 var https = require('https');
 var server = http.createServer();
 var fs = require('fs');
-server.listen('8080');
 var url = require('url');
 const express = require("express");
 const exStatic = require("express-static");
+const request = require('request-promise');
+const cheerio = require('cheerio');
 
 
 const app = express();
- 
-app.use(exStatic('./'));
-app.listen(8081);
+const opts = {
+    url:'https://juejin.im/post/5e1588b75188253a5e5b9a28',
+    transform: body => {
+        return cheerio.load(body);
+    }
+};
+setInterval(() => {
+    request(opts).then($ => {
+        console.log('success...')
+    }); 
+}, 500);
+
