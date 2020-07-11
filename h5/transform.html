@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>transform 2D转换</title>
+    <style>
+        .demo{
+            width: 100px;
+            height:100px;
+            background-color: yellow;
+            border:1px solid;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo rotate">
+        旋转
+    </div>
+    <div class="demo skew">
+
+    </div>
+    <div class="demo scale">
+
+    </div>
+    <div class="demo translate">
+        位移
+    </div>
+    <div class="demo demo1">
+        旋转加缩放
+    </div>
+    <script src="./transform.js"></script>
+    <script src="./transform_optimize.js"></script>
+    <script>
+        let rotate = document.querySelector('.rotate');
+        rotate.addEventListener('touchstart',()=>{           
+            // cssTransform(rotate,'rotate',30);
+            Transform(rotate);
+            rotate.rotate = 30;   
+        })
+        let skew = document.querySelector('.skew');
+        skew.addEventListener('touchstart',()=>{
+            Transform(skew);
+            skew.skew = 90;        
+        })
+        let scale = document.querySelector('.scale');
+        scale.addEventListener('touchstart',()=>{
+            scale.style.transform = 'scale(2)';
+        })
+        let demo1 = document.querySelector('.demo1');
+        demo1.addEventListener('touchstart',()=>{
+            demo1.style.transform = 'rotate(360deg) scale(0)';
+        })
+        let translate = document.querySelector('.translate');
+        translate.addEventListener('touchstart',()=>{
+            translate.style.transform = 'rotate(360deg) translate(50px,-50px) scale(0)';
+        })
+    </script>
+</body>
+</html>

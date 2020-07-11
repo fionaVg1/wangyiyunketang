@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动端自定义滑动区域</title>
+</head>
+<body>
+    <div id="wrap">
+        <ul id="list">
+
+        </ul>
+    </div>
+    <script>
+        let wrapEle = document.getElementById('wrap');
+        var listEle = document.getElementById('list');
+        function initList(){
+            var listHtml = '';
+            for(var i = 0;i<80;i++){
+                listHtml = listHtml + '<li>'+i+'</li>';
+            }
+            listEle.innerHTML = listHtml;
+        }
+        initList();
+        let startY = 0;
+        let startEle = 0;
+        let translateY = 0;
+        listEle.addEventListener('touchstart',(e)=>{
+            startY = e.changedTouches[0].pageY;
+            startEle = translateY;
+        });
+        listEle.addEventListener('touchmove',()=>{
+            let moveY = e.changedTouches[0].pageY;
+            let distance = moveY - startY;
+            translateY = startEle + distance;
+            listEle.style.webkitTransform = listEle.style.transform = 'translate('+translateY+'px)';
+        })
+    </script>
+</body>
+</html>
