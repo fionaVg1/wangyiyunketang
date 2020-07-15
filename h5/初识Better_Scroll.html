@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上拉加载与下拉刷新</title>
+    <style>
+        #loading,#loadEnd{
+
+        }
+        .con{
+            width: 100vw;
+            height:100vh;
+            overflow: hidden;
+        }
+        ul>li{
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            text-indent: 20px;
+            border-bottom: 1px solid #666666;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <header>我是头部</header>
+    <div class="con">
+        <ul id="list">
+            
+        </ul>
+    </div>    
+</body>
+<script type="text/javascript" src="./better-scroll.js"></script>
+<script>
+    let list = document.getElementById('list');
+    let loading = document.getElementById('loading');
+    function getData(){
+        let html = '';
+        for(let i=0;i<20;i++){
+            html += '<li>我是第'+(i+1)+'个li</li>'
+        }
+        let length = list.children.length;
+        if(length === 0){
+            list.innerHTML = html;
+        }
+    }
+    window.onload = ()=>{
+        getData();
+        con();
+    }
+    function con(){
+        let con = document.querySelector('.con');
+        let bscroll = new BScroll(con,{
+            scrollX:true,
+            scrollY:true
+        });
+    }
+    function setIndex(y){
+        let index = getIndex(y);
+        if(index<0 || index>9){
+            return;
+        }
+        indexList
+    }
+    //根据坐标获取当前元素
+    function getIndex(y){
+        let navTop = indexListNav.getBoundingClientRect().top;
+        let h = 18;
+        let index = parseInt((y-navTop)/18);
+        console.log(index)
+    }
+</script>
+</html>

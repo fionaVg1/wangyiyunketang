@@ -6,8 +6,34 @@
     <title>陀螺仪</title>
 </head>
 <body>
+    <div class="content">
+        <p id="p1"></p>
+        <p id="p2"></p>
+        <p id="p3"></p>
+    </div>
     <script>
-        window.addEventListener('devicemotion')
+        let p1Ele = document.getElementById('p1');
+        let p2Ele = document.getElementById('p2');
+        let p3Ele = document.getElementById('p3');
+        window.addEventListener('devicemotion',(e)=>{
+            let motion = e.accelerationIncludingGravity;
+            let x = Math.round(motion.x);
+            let y = Math.round(motion.y);
+            let z = Math.round(motion.z);
+            if(!getAdr()){
+                x = -x;
+                y = -y;
+                z = -z;
+            }
+            p1.innerHTML = 'x:'+x;
+            p2.innerHTML = 'y:'+y;
+            p3.innerHTML = 'z:'+z;
+        });
+        function getAdr(){
+            let type = navigator.userAgent;
+            let isAndroid = type.indexOf('Android')>-1 || type.indexOf('Adr')>1;
+            return isAndroid;
+        }
     </script>
 </body>
 </html>

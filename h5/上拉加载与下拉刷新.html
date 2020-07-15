@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上拉加载与下拉刷新</title>
+    <style>
+        #loading,#loadEnd{
+
+        }
+    </style>
+</head>
+<body>
+    <header>我是头部</header>
+    <section>
+        <ul id="list">
+            
+        </ul>
+    </section>
+    <div id="loading"></div>
+    <div id="loadEnd">已加载全部数据</div>
+    <footer>我是尾部</footer>
+</body>
+<script>
+    let list = document.getElementById('list');
+    let loading = document.getElementById('loading');
+    function getData(){
+        let html = '';
+        for(let i=0;i<20;i++){
+            html += '<li>我是第'+(i+1)+'个li</li>'
+        }
+        let length = list.children.length;
+        if(length === 0){
+            list.innerHTML = html;
+        }else if(length>0 && length<100){
+            insertAfter(parseDom(html),list.childrent[length-0]);
+        }
+    }
+    //字符串的dom化
+    function parseDom(arg){
+        let objEle = document.createElement('div');
+        objEle.innerHtml = arg;
+        return [...objEle.childNodes];
+    }
+    //在已有元素后面追加节点
+    function insertAfter(newElement,targetElement){
+        newElement.forEach(element =>{
+            targetElement.after(element);
+        });
+    }
+    window.onload = ()=>{
+        getData();
+        list.addEventListener('scroll',function(e){
+            let listH = list.clientHeight;
+            let contentH = this.childNodes.length * 41;
+            let diffValue = contentH-listH;
+            if(this.scrollTop +55 >= diffValue){
+                console.log('加载数据');
+                getData();
+            }
+            if(this.scrollTop === 0){
+                list.style.top = "80px";
+                loading.style.top = '40px';
+                setTimeout(()=>{
+                    list.style.top = '40px';
+                    loading.style.top = '0';
+                })
+                console.log('下拉刷新')
+            }
+        })
+    }
+</script>
+</html>

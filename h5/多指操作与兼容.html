@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多指操作与兼容</title>
+</head>
+<body>
+    <div id="con">
+
+    </div>
+    <script>
+        let con = document.getElementById('con');
+        window.onload = ()=>{
+            //gesture只适用于苹果
+            con.addEventListener('gesturestart',(e)=>{
+                con.innerHTML = "两个手指在屏幕上";
+            })
+            con.addEventListener('gesturechange',(e)=>{
+                con.innerHTML = "两个手指在屏幕上，发生了移动";
+            })
+            con.addEventListener('gestureend',(e)=>{
+                con.innerHTML = "手指离开";
+            })
+        }
+    </script>
+</body>
+</html>
