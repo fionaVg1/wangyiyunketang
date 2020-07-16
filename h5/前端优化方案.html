@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端优化方案</title>
+</head>
+<body>
+    <div id="app">
+        <div class="content">test1</div>
+        <div class="content">test2</div>
+        <div class="content">test3</div>
+        <div class="content">test4</div>
+        <div class="content">test5</div>
+    </div>
+    <script>
+        var per = performance;
+        let appEle = document.querySelector('#app');
+        for(let i=0;i<10000;i++){
+            let chidEle = document.createElement('div');
+            chidEle.innerHTML = 'js create dom';
+            appEle.appendChild(chidEle);
+        }
+        window.onload = function(){
+            console.log('dom渲染时间：'+(per.timing.domComplete-per.timing.domLoading)+'ms');
+            console.log('tcp连接时间：'+(per.timing.connectEnd-per.timing.connectStart)+'ms');
+            console.log('响应时间：'+(per.timing.responseEnd-per.timing.responseStart));
+        }
+    </script>
+</body>
+</html>
