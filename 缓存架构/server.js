@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var server = app.listen(3000);
 app.use(function(req, res, next) {
     //跨域处理
     res.header('Access-Control-Allow-Origin', '*');
