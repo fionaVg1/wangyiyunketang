@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画布测试</title>
+</head>
+<body>
+    <div>1.画布大小不能够过样式给，要定义在标签上</div>
+    <canvas id="myCanvas" width="300" height="300"></canvas>
+    <div id="newImg"></div>
+    <script>
+        var myCanvas = document.getElementById('myCanvas');
+        var context = myCanvas.getContext('2d');
+        window.onload = function(){
+            var img = new Image();
+            img.src = 'http://localhost:3000/test.jpg';
+            img.onload = function(){
+                context.drawImage(img,0,0);
+                //像素数组，数组的每个元素是一个数值，是rgba
+                var imgData = context.getImageData(0,0,300,300);
+                var _data = imgData.data;
+                // for(let i=0;i<_data.length;i+=4){
+                //     //去除所有的红色
+                //     _data[i] = 0;
+                // }
+                //灰度滤镜
+                for(let i = 0;i<_data.length;i++){
+                    var _r = _data[4*i+0]*0.3;
+                    var _g = _data[4*i+1]*0.59;
+                    var _b = _data[4*i+2]*0.11;
+                    var grey = _r+_g+_b;
+                    _data[4*i+0] = grey;
+                    _data[4*i+1] = grey;
+                    _data[4*i+2] = grey;
+                }
+                context.putImageData(imgData,0,0);
+                //图片预览功能
+                var base64 = myCanvas.toDataURL('image/png');
+                var e = document.createEvent('MouseEvents');
+                e.initEvent('click',true,true);
+                var newImg = new Image();
+                newImg.src = base64;
+                document.getElementById('newImg').appendChild(newImg);
+                //自动下载
+                base64 = base64.replace('image/png','image/octest-stream');
+                var link = document.createElement('a');
+                link.href = base64;
+                link.dispatchEvent(e);
+            }
+        }
+    </script>
+</body>
+</html>
