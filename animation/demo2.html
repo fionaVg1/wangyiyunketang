@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实现回弹效果</title>
+</head>
+<style>
+    .popup{
+        width: 100px;
+        height: 100px;
+        background:blue;
+    }
+    @keyframes popup {
+        
+    }
+</style>
+<body>
+    <div class="popup" style="display: none;"></div>
+    <button id="show"></button>
+    <script>
+        var btn = document.getElementById('show');
+        var popup = document.querySelector('.popup');
+        btn.onclick = function(){
+            popup.style.display = 'show';
+        }
+    </script>
+</body>
+</html>
