@@ -54,7 +54,7 @@ var createImg = (function() {
         display: function(options) {
             let _html = this.create(options);
             options.target.innerHTML = _html;
-    =764
+        }
     };
     return function execute(obj) {
         var _default = {
