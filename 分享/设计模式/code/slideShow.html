@@ -4,10 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>轮播图</title>
+    <style>
+        @keyframes slide {
+            0%{
+                transform: translate(100%);
+            }
+            100%{
+                transform: translate(-100%);
+            }
+        }
+        .animation{
+            animation: slide 2s linear;
+        }
+    </style>
 </head>
 <body>
     <div id="imgContent">
 
     </div>
+    <script src="./slideShow.js"></script>
+    <script>
+        //轮播图
+        var options = {
+            id: 'imgContent',
+            images: [{
+                id: 1,
+                name: 'item1',
+                src: '/git/wangyiyunketang/img/1.jpg'
+            }, {
+                id: 2,
+                name: 'item2',
+                src: 'img/2.jpg'
+            }, {
+                id: 3,
+                name: 'item3',
+                src: 'img/3.jpg'
+            }, {
+                id: 4,
+                name: 'item4',
+                src: 'img/4.jpg'
+            }, {
+                id: 5,
+                name: 'item5',
+                src: 'img/5.jpg'
+            }, {
+                id: 6,
+                name: 'item6',
+                src: 'img/6.jpg'
+            }]
+        };
+        new Slide(options);
+    </script>
 </body>
 </html>
