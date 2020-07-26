@@ -39,15 +39,32 @@ class Slide {
         }
         //每次轮播的时候把name的值进行调整，然后发送到调用该组件的容器
     play(options) {
+        this.slide();
+        clearInterval(this.timer);
         this.timer = setInterval(() => {
-            const index = this.ids.indexOf(this.current);
-            let newIndex = index + 1;
-            if (newIndex === this.ids.length) {
-                newIndex = 0;
-            }
-            var itemObj = this.items[newIndex];           
-            itemObj.updateSwiperItem();
-        }, 3000);
+            this.slide();
+        }, 5000);
+    }
+    slide(){
+        let index = this.ids.indexOf(this.current); 
+        let lastIndex = index-1;
+        if (index === this.ids.length) {
+            index = 0;                
+        }
+        if(index === 0){
+            lastIndex = this.ids.length-1;
+        }
+        var itemObj = this.items[index]; 
+        var lastItemObj = this.items[lastIndex];       
+        lastItemObj.hideEle();
+        itemObj.showEle();
+        this.items.forEach((item,index)=>{
+
+        });
+        this.current++;
+        if(this.current>this.ids.length){
+            this.current = this.ids[0];
+        }
     }
     render() {
         var options = this.initData();
@@ -66,8 +83,13 @@ class SlideItem {
     constructor(options) {
         this.options = options;
     }
-    updateSwiperItem() {
+    showEle() {
         this.ele.classList.add('animation');
+        this.ele.style.display = 'block';
+    }
+    hideEle(){
+        this.ele.style.display = 'none';
+        this.ele.classList.remove('animation');
     }
     getDOM() {
         var image = this.options.image;
@@ -75,6 +97,8 @@ class SlideItem {
         var img = document.createElement('img');
         img.setAttribute('src', image.src);
         div.appendChild(img);
+        div.style.display = 'none';
+        div.classList.add('slideItem');
         this.ele = div;
         return div;
     }

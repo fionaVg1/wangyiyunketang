@@ -14,8 +14,21 @@
             }
         }
         .animation{
-            animation: slide 2s linear;
+            animation: slide 3s linear 1;            
         }
+        #imgContent{
+            width: 640px;
+            height: 360px;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 5px solid #ddd;
+            position: relative;
+        }  
+        .slideItem{            
+            left:50%;
+            position: absolute;
+            transform: translate(-50%);
+        }    
     </style>
 </head>
 <body>
@@ -34,23 +47,23 @@
             }, {
                 id: 2,
                 name: 'item2',
-                src: 'img/2.jpg'
+                src: '/git/wangyiyunketang/img/2.jpg'
             }, {
                 id: 3,
                 name: 'item3',
-                src: 'img/3.jpg'
+                src: '/git/wangyiyunketang/img/3.jpg'
             }, {
                 id: 4,
                 name: 'item4',
-                src: 'img/4.jpg'
+                src: '/git/wangyiyunketang/img/4.jpg'
             }, {
                 id: 5,
                 name: 'item5',
-                src: 'img/5.jpg'
+                src: '/git/wangyiyunketang/img/5.jpg'
             }, {
                 id: 6,
                 name: 'item6',
-                src: 'img/6.jpg'
+                src: '/git/wangyiyunketang/img/6.jpg'
             }]
         };
         new Slide(options);
