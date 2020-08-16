@@ -1,0 +1,137 @@
+#container1 {
+    border: 10px;
+    width: 200px;
+    height: 200px;
+    background: pink;
+    background-clip: padding-box;
+    /**阻止border包含在背景里面的影响**/
+}
+
+/**
+border和outline很类似，但有如下区别：
+1. 轮廓不占据空间，绘制于元素内容周围
+2. 根据规范，轮廓通常是矩形，但也可以是非矩形的
+**/
+#container2 {
+    width: 100px;
+    height: 100px;
+    margin: 15px;
+    background: yellowgreen;
+    border-radius: 5px;
+    box-shadow: 0 0 0 10px #655, 0 0 0 15px deeppink, 0 2px 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+/**
+background-position与background-origin的区别
+box-shadow和outline的结合使用
+**/
+#container3 {
+    margin: 20px;
+    width: 100px;
+    height: 100px;
+    background: #d9c2bc;
+    border-radius: 10px;
+    box-shadow: 0 0 0 5px #655;
+    outline: 10px solid #655;
+  }
+
+  #container4 {
+    width: 130px;
+    height: 78px;
+    background: linear-gradient(
+      #000 0,
+      #000 33.3%,
+      #cc2a1d 33.3%,
+      #cc2a1d 66.6%,
+      #f8cf47 66.6%,
+      #f8cf47 100%
+    );
+    background-size: 100% 100%;
+  }
+  #container5 {
+    width: 130px;
+    height: 78px;
+    background: linear-gradient(
+      to right,
+      #002590 0,
+      #002590 33.3%,
+      #ffffff 33.3%,
+      #ffffff 66.6%,
+      #db3c3f 66.6%,
+      #db3c3f 100%
+    );
+    background-size: 100% 100%;
+  }
+
+  #container6 {
+    background: #fff;
+    width: 200px;
+    position: relative;
+  }
+  #container6::before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    /* 这里的语法在CSS4中可能会被简化 */
+    background: repeating-linear-gradient(
+      -45deg,
+      #ff6c6c 0,
+      #ff6c6c 20%,
+      transparent 0,
+      transparent 25%,
+      #1989fa 0,
+      #1989fa 45%,
+      transparent 0,
+      transparent 50%
+    );
+    background-size: 80px;
+    content: "";
+  }
+
+  #container7 {
+    text-align: center;
+    line-height: 70px;
+    box-sizing: padding-box;
+    width: 200px;
+    height: 70px;
+    background: #fff;
+    border: 5px solid transparent;
+    border-image: 5
+      repeating-linear-gradient(
+        -45deg,
+        #ff6c6c 0,
+        #ff6c6c 10%,
+        transparent 0,
+        transparent 15%,
+        #1989fa 0,
+        #1989fa 25%,
+        transparent 0,
+        transparent 30%
+      );
+  }
+
+  /**
+  蚂蚁动画
+  **/
+  #container{
+    width: 100px;
+    height: 100px;
+    border: 1px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+      repeating-linear-gradient(
+          -45deg,
+          black 0,
+          black 25%,
+          transparent 0,
+          transparent 50%
+        )
+        0% 0% / 0.6em 0.6em;
+    animation: ants 10s linear infinite;
+  }
+  @keyframes ants {
+    to {
+      background-position: 100% 100%;
+    }
+  }
