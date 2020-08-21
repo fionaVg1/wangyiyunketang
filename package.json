@@ -137,7 +137,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "package":"$npm_package_name",
+    "lint2":"eslint . --rulesdir ./node/need_constructor.js"
   },
   "author": "",
   "license": "ISC"

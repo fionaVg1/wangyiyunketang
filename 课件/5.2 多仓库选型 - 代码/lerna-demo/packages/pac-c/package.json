@@ -1,0 +1,25 @@
+{
+  "name": "pac-c",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "hanyuntao <taosher@outlook.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/pac-c.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://192.168.30.69:7001/"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.0"
+  }
+}
