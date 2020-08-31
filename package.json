@@ -101,6 +101,7 @@
     "mime-db": "^1.42.0",
     "mime-types": "^2.1.25",
     "mime2": "^0.0.9",
+    "mockjs": "^1.1.0",
     "ms": "^2.1.1",
     "negotiator": "^0.6.2",
     "on-finished": "^2.3.0",
@@ -138,8 +139,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "package":"$npm_package_name",
-    "lint2":"eslint . --rulesdir ./node/need_constructor.js"
+    "package": "$npm_package_name",
+    "lint2": "eslint . --rulesdir ./node/need_constructor.js"
   },
   "author": "",
   "license": "ISC"
