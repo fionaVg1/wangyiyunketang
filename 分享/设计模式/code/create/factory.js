@@ -1,3 +1,6 @@
+/**
+ * 工厂模式
+ */
 function Factory(type) {
     switch (type) {
         case 'type1':
@@ -8,6 +11,9 @@ function Factory(type) {
             return new Type3();
     }
 }
+/**
+ * 多彩的弹窗（需求：项目有一个弹窗需求，弹窗有多种，他们之间存在内容和颜色上的差异）
+ */
 (function() {
     function pop(type, content, color) {
         if (this instanceof pop) {
@@ -33,6 +39,9 @@ var arr = [{ type: 'infoPop', content: 'hello', color: 'yellow' },
 arr.forEach(item => {
     window.pop(item.type, item.content, item.color);
 });
+/**
+ * jquery示例
+ */
 (function() {
     var jquery = function(selector, contentx) {
         return new jquery.fn.init(selector, contentx);
