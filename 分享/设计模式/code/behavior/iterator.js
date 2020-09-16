@@ -1,3 +1,6 @@
+/**
+ * 迭代器模式
+ */
 function Iterator(item) {
     this.item = item;
 }
@@ -20,6 +23,9 @@ Iterator.prototype.dealEach = function(fn) {
         }
     }
 }
+/**
+ * 例子
+ */
 var data = [
     { num: 1 },
     { num: 2 },
@@ -56,4 +62,4 @@ iteratorFactory(data).geHasSomenum(function(item) {
     if (item.num - 1 == 2) {
         return item;
     }
-});
+});//Array.prototype.filter

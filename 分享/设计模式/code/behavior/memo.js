@@ -11,6 +11,9 @@ function Memento() {
 }
 var MementoFn = Memento();
 MementoFn('xxx');
+/**
+ * 文章页缓存（需求：项目有一个文章页需求，现在进行优化，如果上一篇已经读取过了，则不进行请求，否则请求文章数据）
+ */
 function pager() {
     var cache = {};
     return function(pageName) {
@@ -24,6 +27,9 @@ function pager() {
     }
 }
 
+/**
+ * 前进后退功能（需求：开发一个可移动的div,拥有前进后退功能回滚到之前的位置）
+ */
 function moveDiv() {
     this.sateList = [];
     this.nowState = 0;

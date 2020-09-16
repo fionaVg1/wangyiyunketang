@@ -22,6 +22,9 @@ var s2 = new store();
 s1.store.a = 1;
 console.log(s2)
 
+/**
+ * vue-router单例
+ */
 let _Vue;
 function install(Vue) {
     if (install.installed && _Vue === Vue) {

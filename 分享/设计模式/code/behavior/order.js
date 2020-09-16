@@ -1,3 +1,7 @@
+/**
+ * 命令模式
+ * 解耦实现和调用，让双方互不干扰
+ */
 var command = (function() {
     var action = {};
     return function excute() {}
@@ -26,6 +30,9 @@ let commander = [
     { command: 'drawRect', config: {} }
 ];
 canvasCommand(commander);
+/**
+ * 绘制随机数量图片（需求：要做一个画廊，图片数量和排列顺序随机） 
+ */
 var createImg = (function() {
     var actions = {
         create: function(options) {
@@ -35,10 +42,10 @@ var createImg = (function() {
             //策略模式
             var displayWay = {
                 normal: function(arr) {
-                    return [];
+                    return arr;
                 },
                 reverse: function(arr) {
-                    return [];
+                    return arr.reverse();
                 }
 
             };
@@ -58,8 +65,8 @@ var createImg = (function() {
     };
     return function execute(obj) {
         var _default = {
-            imgArr: [{ img: 'xxx', title: 'img1' }],
-            type: 'normal',
+            imgArr: [{ img: '/git/wangyiyunketang/img/1.jpg', title: 'img1' },{ img: '/git/wangyiyunketang/img/2.jpg', title: 'img2' }],
+            type: 'reverse',
             target: document.body
         };
         //适配器模式，适配参数

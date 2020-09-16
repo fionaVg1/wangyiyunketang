@@ -1,3 +1,9 @@
+/**
+ * 策略模式
+ */
+/**
+ * 假设要编写一个计算器，有加减乘除，我们可以把一层一层的if判断，变成上面的形式    
+ */
 function Strategy(type, a, b) {
     var strategyer = {
         add: function(a, b) {
@@ -31,6 +37,9 @@ function stateFacotr(status) {
     return stateObject;
 }
 stateFacotr('state1').run();
+/**
+ * 权限使用
+ */
 function showControll() {
     this.permission = '';
     this.power = {
@@ -54,6 +63,9 @@ showControll.prototype.show = function() {
 }
 
 new showControll().show();
+/**
+ * 小球移动
+ */
 function mover() {
     this.satus = [];
     this.actionHandle = {
