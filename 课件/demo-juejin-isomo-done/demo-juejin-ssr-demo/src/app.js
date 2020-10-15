@@ -10,6 +10,7 @@ import { init as permissionInit } from "./config/permission";
 Vue.directive("intersect", intersect);
 // app.$mount("#app");
 
+//暴露工厂函数，避免请求状态被污染
 export function createApp() {
   const store = createStore();
   const router = createRouter({ store });

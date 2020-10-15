@@ -53,6 +53,7 @@ app.get("*", (req, res) => {
     // });
 
     const hit = microCache.get(req.url);
+    console.log(req.url)
 
     // if (hit) {
     //   if (!isProd) {
