@@ -1,10 +1,22 @@
 // 打印结果
 
 
-// (等待3s)--> 'whr eat apple' -(等待5s)--> 'whr eat durian'
-class People {
-    constructor(name) {
-        this.name = name;
+// 实现taskSum(1000,()=>{console.log(1)}).task(1200,()=>{console.log(2)}).task(1300,()=>{console.log(3)})，
+// 这里等待1s，打印1，之后等待1.2s，打印2，之后打印1.3s，打印3
+
+
+
+function taskSum(timer,callback){   
+    return new Task(timer,callback);
+}
+
+class Task {
+    constructor(timer,callback){
+        this.timer = timer;
+        this.callback = callback;
+        setTimeout(()=>{
+            callback();
+        },timer);
         this.queue = Promise.resolve();
     }
     sleep(timer) {
@@ -17,11 +29,13 @@ class People {
         });
         return this;
     }
-    eat(fruit) {
-        this.queue = this.queue.then(() => {
-            console.log(`${this.name} eat ${fruit}`);
+    task(timer,callback){   
+        this.queue.then(()=>{
+            setTimeout(()=>{
+                callback();
+            },timer);
         })
         return this;
     }
 }
-new People('whr').sleep(3000).eat('apple').sleep(5000).eat('durian');
+taskSum(1000,()=>{console.log(1)}).task(1200,()=>{console.log(2)}).task(5300,()=>{console.log(3)});
