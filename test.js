@@ -1,41 +1,50 @@
-// 打印结果
+var urls = [
+    'https://www.kkkk1000.com/images/getImgData/getImgDatadata.jpg', 
+    'https://www.kkkk1000.com/images/getImgData/gray.gif', 
+    'https://www.kkkk1000.com/images/getImgData/Particle.gif', 
+    'https://www.kkkk1000.com/images/getImgData/arithmetic.png', 
+    'https://www.kkkk1000.com/images/getImgData/arithmetic2.gif', 
+    'https://www.kkkk1000.com/images/getImgData/getImgDataError.jpg', 
+    'https://www.kkkk1000.com/images/getImgData/arithmetic.gif', 
+    'https://www.kkkk1000.com/images/wxQrCode2.png'
+];
 
+function loadImg(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.onload = function () {
+            console.log('一张图片加载完成');
+            resolve();
+        }
+        img.onerror = reject
+        img.src = url
+    })
+};
+function limitLoad(urls, handler, limit) {
+    // 对数组做一个拷贝
+    const sequence = [].concat(urls)
+    let promises = [];
 
-// 实现taskSum(1000,()=>{console.log(1)}).task(1200,()=>{console.log(2)}).task(1300,()=>{console.log(3)})，
-// 这里等待1s，打印1，之后等待1.2s，打印2，之后打印1.3s，打印3
-
-
-
-function taskSum(timer,callback){   
-    return new Task(timer,callback);
-}
-
-class Task {
-    constructor(timer,callback){
-        this.timer = timer;
-        this.callback = callback;
-        setTimeout(()=>{
-            callback();
-        },timer);
-        this.queue = Promise.resolve();
-    }
-    sleep(timer) {
-        this.queue = this.queue.then(() => {
-            return new Promise(resolve => {
-                setTimeout(function() {
-                    resolve();
-                }, timer);
-            });
+    //并发请求到最大数
+    promises = sequence.splice(0, limit).map((url, index) => {
+        // 这里返回的 index 是任务在 promises 的脚标，
+        //用于在 Promise.race 之后找到完成的任务脚标
+        return handler(url).then(() => {
+            return index
         });
-        return this;
-    }
-    task(timer,callback){   
-        this.queue.then(()=>{
-            setTimeout(()=>{
-                callback();
-            },timer);
-        })
-        return this;
-    }
+    });
+
+    (async function loop() {
+        let p = Promise.race(promises);
+        for (let i = 0; i < sequence.length; i++) {
+            p = p.then((res) => {
+                //promise中替换：将队列中剩余的请求替换已经请求完成的请求
+                promises[res] = handler(sequence[i]).then(() => {
+                    return res
+                });
+                return Promise.race(promises)
+            })
+        }
+    })()
 }
-taskSum(1000,()=>{console.log(1)}).task(1200,()=>{console.log(2)}).task(5300,()=>{console.log(3)});
+limitLoad(urls, loadImg, 3);
