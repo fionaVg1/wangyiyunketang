@@ -1,50 +1,17 @@
-var urls = [
-    'https://www.kkkk1000.com/images/getImgData/getImgDatadata.jpg', 
-    'https://www.kkkk1000.com/images/getImgData/gray.gif', 
-    'https://www.kkkk1000.com/images/getImgData/Particle.gif', 
-    'https://www.kkkk1000.com/images/getImgData/arithmetic.png', 
-    'https://www.kkkk1000.com/images/getImgData/arithmetic2.gif', 
-    'https://www.kkkk1000.com/images/getImgData/getImgDataError.jpg', 
-    'https://www.kkkk1000.com/images/getImgData/arithmetic.gif', 
-    'https://www.kkkk1000.com/images/wxQrCode2.png'
-];
-
-function loadImg(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image()
-        img.onload = function () {
-            console.log('一张图片加载完成');
-            resolve();
-        }
-        img.onerror = reject
-        img.src = url
-    })
-};
-function limitLoad(urls, handler, limit) {
-    // 对数组做一个拷贝
-    const sequence = [].concat(urls)
-    let promises = [];
-
-    //并发请求到最大数
-    promises = sequence.splice(0, limit).map((url, index) => {
-        // 这里返回的 index 是任务在 promises 的脚标，
-        //用于在 Promise.race 之后找到完成的任务脚标
-        return handler(url).then(() => {
-            return index
-        });
-    });
-
-    (async function loop() {
-        let p = Promise.race(promises);
-        for (let i = 0; i < sequence.length; i++) {
-            p = p.then((res) => {
-                //promise中替换：将队列中剩余的请求替换已经请求完成的请求
-                promises[res] = handler(sequence[i]).then(() => {
-                    return res
-                });
-                return Promise.race(promises)
-            })
-        }
-    })()
+let arr = [1,3,1,3,2];
+let map = new Map();
+let result = [];
+for(let value of arr){
+    if(map.has(value)){
+        let num = map.get(value);
+        map.set(value,++num);
+    }else{
+        map.set(value,1);
+    }
 }
-limitLoad(urls, loadImg, 3);
+map.forEach((value,key)=>{
+    if(value === 1){
+        result.push(key)
+    }
+});
+console.log(result);
